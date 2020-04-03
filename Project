@@ -1,0 +1,13 @@
+#include<stdio.h>
+#include<pthread.h>
+#include<stdlib.h>
+#include <unistd.h>
+
+
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t  finish_cond  = PTHREAD_COND_INITIALIZER;
+int barrier = 0;
+int barrier_size;
+int thread_count;
+int counter=0;
+int invoke_barrier = 0;
