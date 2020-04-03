@@ -11,3 +11,48 @@ int barrier_size;
 int thread_count;
 int counter=0;
 int invoke_barrier = 0;
+
+arams : number of threads a process is creating.
+ * returns : none.
+ *
+ * Initialize barrier with tota
+/*
+ * pl number of threads.
+ */
+void barrier_init(int n_threads)
+{
+    if ( thread_count < barrier_size ) { barrier = thread_count; return; }
+    barrier = n_threads;
+}
+
+
+
+/*
+ * params: none.
+ * returns: -1 on failure, 0 on success.
+ * decrement the count by 1.
+ *
+ */
+int decrement()
+{
+    if (barrier == 0) {
+
+        return 0;
+    }
+
+    if(pthread_mutex_lock(&lock) != 0)
+    {
+        perror("Failed to take lock.");
+        return -1;
+    }
+
+    barrier--;
+
+    if(pthread_mutex_unlock(&lock) != 0)
+    {
+        perror("Failed to unlock.");
+        return -1;
+    }
+
+    return 0;
+}
