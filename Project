@@ -56,3 +56,33 @@ int decrement()
 
     return 0;
 }
+
+
+/*
+ *  params: none.
+ *  returns: int : 0 on sucess, -1 on failure.
+ *
+ *
+ *  wait for other threads to complete.
+ */
+int wait_barrier()
+{
+    if(decrement() < 0)
+    {
+        return -1;
+    }
+
+    while (barrier)
+    {
+        if(pthread_mutex_lock(&lock) != 0)
+        {
+            perror("\n Error in locking mutex");
+            return -1;
+        }
+
+        if(pthread_cond_wait(&finish_cond, &lock) != 0)
+        {
+            perror("\n Error in cond wait.");
+            return -1;
+        }
+    }
